@@ -19,7 +19,7 @@ from image_outline import ImageOutline
 from product import Product
 import numpy as np
 import shelve
-from gl_utils import draw_gl_polyline,draw_gl_polyline_norm,adjust_gl_view,clear_gl_screen,draw_gl_point,draw_gl_points,draw_gl_point_norm,draw_gl_points_norm,basic_gl_setup,cvmat_to_glmat, redraw_gl_texture
+from gl_utils import adjust_gl_view,basic_gl_setup 
 from methods import normalize,denormalize
 import atb
 import audio
@@ -43,7 +43,7 @@ from timed_counter import TimedCounter
 def on_resize(window,w, h):
   active_window = glfwGetCurrentContext()
   glfwMakeContextCurrent(window)
-  adjust_gl_view(w,h)
+  adjust_gl_view(w,h, window)
   glfwMakeContextCurrent(active_window)
 
 class Shopping_Detector(Plugin):
