@@ -10,6 +10,7 @@
 
 import platform,sys,os
 os_name = platform.system()
+del platform
 from time import sleep
 
 import subprocess as sp
@@ -34,28 +35,15 @@ if os_name == "Linux":
     ffmpeg_bin = "avconv"
     arecord_bin = 'arecord'
 
-    if 'Ubuntu' in platform.linux_distribution():
-        def beep():
-            sp.Popen(["paplay", "/usr/share/sounds/ubuntu/stereo/message.ogg"])
 
-        def tink():
-            sp.Popen(["paplay", "/usr/share/sounds/ubuntu/stereo/button-pressed.ogg"])
+    def beep():
+        sp.Popen(["paplay", "/usr/share/sounds/ubuntu/stereo/message.ogg"])
 
-        def say(message):
-            try:
-                sp.Popen(["spd-say", message])
-            except OSError:
-                logger.warning("could not say: '%s'. Please install spd-say if you want Pupil capture to speek to you.")
-    else:
-        def beep():
-            print '\a'
+    def tink():
+        sp.Popen(["paplay", "/usr/share/sounds/ubuntu/stereo/message.ogg"])
 
-        def tink():
-            print '\a'
-
-        def say(message):
-            print '\a'
-            print message
+    def say(message):
+        sp.Popen(["spd-say", message])
 
 
     class Audio_Input_List(list):
@@ -92,7 +80,7 @@ if os_name == "Linux":
 
     class Audio_Capture(object):
         """docstring for audio_capture"""
-        def __init__(self,audio_src_idx=0, out_file='out.wav'):
+        def __init__(self,audio_src_idx, out_file):
             super(Audio_Capture, self).__init__()
             # command = [ ffmpeg_bin,
             #         '-f', 'alsa',
@@ -215,11 +203,11 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
 
-    beep()
-    sleep(1)
-    tink()
-    cap = Audio_Capture('test.mp3')
-    say("Hello, I am Pupil's audio module.")
-    sleep(3)
-    cap = None
+    # beep()
+    # sleep(1)
+    # tink()
+    # cap = Audio_Capture('test.mp3')
+    # say("Hello, I am Pupil's audio module.")
+    # sleep(3)
+    # cap = None
     print Audio_Input_List()

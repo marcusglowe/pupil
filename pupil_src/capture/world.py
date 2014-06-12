@@ -37,6 +37,7 @@ import calibrate
 # Plug-ins
 import calibration_routines
 import recorder
+from shopping_detector import Shopping_Detector
 from show_calibration import Show_Calibration
 from display_recent_gaze import Display_Recent_Gaze
 from pupil_server import Pupil_Server
@@ -227,6 +228,16 @@ def world(g_pool,cap_src,cap_size):
         g_pool.plugins.append(new_plugin)
         g_pool.plugins.sort(key=lambda p: p.order)
 
+    def toggle_shopping():
+        for p in g_pool.plugins:
+            if isinstance(p,Shopping_Detector):
+                p.alive = False
+                return
+        new_plugin = Shopping_Detector(g_pool,(10,400))
+        g_pool.plugins.insert(0,new_plugin) #do this before the server or recorder
+        g_pool.plugins.sort(key=lambda p: p.order)
+
+
     def reset_timebase():
         #the last frame from worldcam will be t0
         g_pool.timebase.value = cap.get_now()
@@ -259,6 +270,7 @@ def world(g_pool,cap_src,cap_size):
     bar.add_var("record eye", bar.record_eye, group="Recording", help="check to save raw video of eye")
     bar.add_var("record audio", bar.audio, vtype=audio_enum, group="Recording", help="Select from audio recording options.")
     bar.add_button("start/stop marker tracking",toggle_ar,key="x",help="find markers in scene to map gaze onto referace surfaces")
+    bar.add_button("start/stop shopping tracking",toggle_shopping,key="p",help="track product areas on screen")
     bar.add_button("start/stop server",toggle_server,key="s",help="the server broadcasts pupil and gaze positions locally or via network")
     bar.add_button("set timebase to now",reset_timebase,help="this button allows the timestamps to count from now on.",key="t")
     bar.add_var("update screen", g_pool.update_textures,help="if you dont need to see the camera image updated, you can turn this of to reduce CPU load.")
