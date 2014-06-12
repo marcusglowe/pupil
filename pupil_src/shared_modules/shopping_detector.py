@@ -145,10 +145,10 @@ class Shopping_Detector(Plugin):
   def create_training_products(self):
     if not self.loadedProducts:
       self.trainingProducts = []
-      productsDir = os.path.dirname(os.path.realpath(__file__)) + '/products'
       productsDir = '/Users/mobileexperiencelab/Downloads/detect/products'
       productsDir = '/Users/mobileexperiencelab/Downloads/Poster1'
       productsDir = '/Users/mobileexperiencelab/Downloads/Poster2'
+      productsDir = os.path.dirname(os.path.realpath(__file__)) + '/products'
       for f in os.listdir(productsDir):
         if f.endswith('.jpg'):
           self.trainingProducts.append(Product(productsDir + '/' + f))
